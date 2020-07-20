@@ -5,6 +5,8 @@ import org.softuni.workshopspringadvanced.annoucement.model.AnnouncementDTO;
 import org.softuni.workshopspringadvanced.annoucement.repository.AnnouncementRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,5 +24,10 @@ public class AnnouncementService {
         return this.announcementRepository.findAll().stream()
                 .map(a->this.modelMapper.map(a,AnnouncementDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public void cleanupOldAnnouncements(){
+        Instant endTime = Instant.now().minus(7, ChronoUnit.DAYS);
+        announcementRepository.deleteByUpdatedOnBefore(endTime);
     }
 }
