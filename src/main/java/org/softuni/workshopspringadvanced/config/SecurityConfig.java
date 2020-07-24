@@ -1,5 +1,6 @@
 package org.softuni.workshopspringadvanced.config;
 
+import org.softuni.workshopspringadvanced.users.OAuth2UserAuthSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +19,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     public final UserDetailsService userDetailsService;
+    private final OAuth2UserAuthSuccessHandler successHandler;
     private final PasswordEncoder passwordEncoder;
 
-    public SecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    @Autowired
+    public SecurityConfig(UserDetailsService userDetailsService, OAuth2UserAuthSuccessHandler successHandler, PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
+        this.successHandler = successHandler;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -45,7 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 logoutUrl("/logout").
                 logoutSuccessUrl("/login").
                 invalidateHttpSession(true).
-                deleteCookies("JSESSIONID");
+                deleteCookies("JSESSIONID")
+                .and()
+                .oauth2Login()
+                .loginPage("/login")
+                .successHandler(successHandler);//TODO
 
     }
 
