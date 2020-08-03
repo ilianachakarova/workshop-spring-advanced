@@ -2,6 +2,7 @@ package org.softuni.workshopspringadvanced.annoucement.service;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.workshopspringadvanced.annoucement.model.AnnouncementDTO;
+import org.softuni.workshopspringadvanced.annoucement.model.AnnouncementEntity;
 import org.softuni.workshopspringadvanced.annoucement.repository.AnnouncementRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,16 @@ public class AnnouncementService {
     public void cleanupOldAnnouncements(){
         Instant endTime = Instant.now().minus(7, ChronoUnit.DAYS);
         announcementRepository.deleteByUpdatedOnBefore(endTime);
+    }
+
+    public void createOrUpdateAnnouncement(AnnouncementDTO announcementDTO){
+        AnnouncementEntity entity = this.modelMapper.map(announcementDTO,AnnouncementEntity.class);
+        entity.setUpdatedOn(Instant.now());
+        entity.setCreatedOn(Instant.now());
+        announcementRepository.save(entity);
+    }
+
+    public void deleteAnnouncement(Long id){
+        announcementRepository.deleteById(id);
     }
 }

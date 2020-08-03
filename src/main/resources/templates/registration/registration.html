@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+
+<div class="container center">
+    <!-- FACEBOOK SIGNIN -->
+    <div class="card">
+        <article class="card-body">
+
+            <form th:action="@{/registration}" method="post" th:object="${formData}">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                            name="email"
+                            type="email"
+                            placeholder="Email"
+                            class="form-control"
+                            th:value="*{email}"
+                            th:errorclass="is-invalid"
+                            id="email"/>
+                    <div th:class="invalid-feedback">Please enter a valid email address</div>
+                </div>
+
+                <!-- form-group// -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                            name="password"
+                            type="password"
+                            placeholder="Password"
+                            class="form-control"
+                            th:errorclass="is-invalid"
+                            id="password"/>
+                    <div th:class="invalid-feedback">Please enter a valid password</div>
+                </div>
+
+                <!-- form-group// -->
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input
+                            name="confirmPassword"
+                            type="password"
+                            placeholder="confirmPassword"
+                            class="form-control"
+                            th:errorclass="is-invalid"
+                            id="confirmPassword"/>
+                    <div th:class="invalid-feedback">Please enter a valid email address</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                        </div> <!-- form-group// -->
+                    </div>
+
+                </div> <!-- .row// -->
+            </form>
+        </article>
+    </div> <!-- card.// -->
+
+    <!-- Demo credentials -->
+
+    <!-- EO: Demo credentials -->
+
+    <!-- Bootstap JS -->
+    <div th:replace="fragments/bootstrap-js :: bootstrap-js"></div>
+    <!-- EO: Bootstap JS -->
+</div>
+</body>
+</html>
